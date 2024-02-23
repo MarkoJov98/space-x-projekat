@@ -50,7 +50,6 @@ document.addEventListener("DOMContentLoaded", function (){
             console.error("Greska pri preuzimanju podataka:", error);
         };
     };
-    prikaziLansiranja();
 
     async function prikaziInformacije() {
         try {
@@ -160,10 +159,70 @@ document.addEventListener("DOMContentLoaded", function (){
             console.error("Greska pri preuzimanju podataka:", error);
         };
     };
-    prikaziInformacije();
+
+    async function prikaziRakete() {
+        const rakete = await fetchData("https://api.spacexdata.com/v4/rockets");
+        const lista = document.getElementById("listaRaketa");
+
+        rakete.forEach((raketa) => {
+            const raketaDiv = document.createElement("div");
+            raketaDiv.className = "divRaketa";
+            let infoDiv = document.createElement("div");
+            infoDiv.className = "infoDiv";
+            let buttonDiv = document.createElement("div");
+            buttonDiv.className = "buttonDiv";
+            if(raketa.flickr_images) {
+                let logoRaketa = document.createElement("img");
+                logoRaketa.src = raketa.flickr_images[0];
+                raketaDiv.appendChild(logoRaketa);
+            };
+
+            let raketaIme = document.createElement("h3");
+            raketaIme.textContent = raketa.name;
+
+            let raketaTip = document.createElement("p");
+            raketaTip.textContent = `Type: ${raketa.type}`;
+
+            let raketaVisina = document.createElement("p");
+            raketaVisina.textContent =`Height: ${raketa.height.meters} m`;
+
+            let raketaMasa = document.createElement("p");
+            raketaMasa.textContent = `Mass: ${raketa.mass.kg} kg`
 
 
+            let detaljiRakete = document.createElement("p");
+            detaljiRakete.textContent = `Details: ${raketa.description}`;
+
+            let buttonRaketa = document.createElement("a");
+            buttonRaketa.className = "button";
+            buttonRaketa.textContent = "Learn More";
+
+
+            
+            lista.appendChild(raketaDiv);
+            raketaDiv.appendChild(infoDiv);
+            raketaDiv.appendChild(buttonDiv);
+            infoDiv.appendChild(raketaIme);
+            infoDiv.appendChild(raketaTip);
+            infoDiv.appendChild(raketaVisina);
+            infoDiv.appendChild(raketaMasa);
+            infoDiv.appendChild(detaljiRakete);
+            buttonDiv.appendChild(buttonRaketa);
+        });
+
+    };
+    
+    const currentPage = window.location.pathname;
+    if (currentPage.includes("lansiranja.html")) {
+        prikaziLansiranja();
+    } else if (currentPage.includes("rakete.html")) {
+        prikaziRakete();
+    } else if (currentPage.includes("onama.html")) {
+        prikaziInformacije();
+    }
 });
+
+
 
 
 
