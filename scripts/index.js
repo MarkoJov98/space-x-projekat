@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function (){
             const listaLansiranja = document.getElementById("listaLansiranja");
             // console.log(lansiranja);
             lansiranja.forEach((lansiranje) => {
-                const lansiranjeDiv = document.createElement("div");
+                let lansiranjeDiv = document.createElement("div");
                 lansiranjeDiv.className = "lansiranjeDiv";
                 if(lansiranje.links.patch.small){
                     let logoLansiranja = document.createElement("img");
@@ -31,11 +31,11 @@ document.addEventListener("DOMContentLoaded", function (){
                 };
                 let lansiranjaUspeh = document.createElement("p");
                 if(lansiranje.success === true) {
-                    lansiranjaUspeh.textContent = `Launch: Success`
+                    lansiranjaUspeh.textContent = `Launch: Success`;
                 } else if(lansiranje.success === false) {
                     lansiranjaUspeh.textContent = "Launch: Failure"
                 } else {
-                    lansiranjaUspeh.textContent = "Launch: Unknown"
+                    lansiranjaUspeh.textContent = "Launch: Unknown";
                 };
                 
                 lansiranjeDiv.appendChild(lansiranjaIme);
@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function (){
                 lansiranjeDiv.appendChild(lansiranjaUspeh);
                 listaLansiranja.appendChild(lansiranjeDiv);
             });
-
 
         } catch (error) {
             console.error("Greska pri preuzimanju podataka:", error);
@@ -56,12 +55,11 @@ document.addEventListener("DOMContentLoaded", function (){
             const informacije = await fetchData("https://api.spacexdata.com/v4/company");
             const informacijeONama = document.getElementById("informacijeONama");
             
-            const aboutDiv = document.createElement("div");
+            let aboutDiv = document.createElement("div");
             aboutDiv.className = "about-section";
 
             let containerDiv1 = document.createElement("div");
             containerDiv1.className = "containerDiv";
-            
 
             const headquarters = document.createElement("div");
             headquarters.className = "headquarters-section";
@@ -95,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function (){
             testSites.textContent = `and ${informacije.test_sites} test sites,`;
 
             let value = document.createElement("p");
-            value.textContent = `Valued at $${informacije.valuation}.`;
+            value.textContent = `Valued at $${informacije.valuation.toLocaleString({ minimumFractionDigits: 2 })}.`;
             
             let infoHeadquarters = document.createElement("p");
             infoHeadquarters.className = "headquarters-info";
@@ -165,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function (){
         const lista = document.getElementById("listaRaketa");
 
         rakete.forEach((raketa) => {
-            const raketaDiv = document.createElement("div");
+            let raketaDiv = document.createElement("div");
             raketaDiv.className = "divRaketa";
             let infoDiv = document.createElement("div");
             infoDiv.className = "infoDiv";
@@ -187,8 +185,7 @@ document.addEventListener("DOMContentLoaded", function (){
             raketaVisina.textContent =`Height: ${raketa.height.meters} m`;
 
             let raketaMasa = document.createElement("p");
-            raketaMasa.textContent = `Mass: ${raketa.mass.kg} kg`
-
+            raketaMasa.textContent = `Mass: ${raketa.mass.kg.toLocaleString({minimumFractionDigits: 2 })} kg`
 
             let detaljiRakete = document.createElement("p");
             detaljiRakete.textContent = `Details: ${raketa.description}`;
@@ -196,8 +193,8 @@ document.addEventListener("DOMContentLoaded", function (){
             let buttonRaketa = document.createElement("a");
             buttonRaketa.className = "button";
             buttonRaketa.textContent = "Learn More";
-
-
+            buttonRaketa.setAttribute("data-id", raketa.id);
+            buttonRaketa.href = `raketa.html?raketaId=${raketa.id}`;
             
             lista.appendChild(raketaDiv);
             raketaDiv.appendChild(infoDiv);
@@ -209,9 +206,119 @@ document.addEventListener("DOMContentLoaded", function (){
             infoDiv.appendChild(detaljiRakete);
             buttonDiv.appendChild(buttonRaketa);
         });
-
     };
-    
+    async function pojedinacnaRaketa() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const rocketId = urlParams.get("raketaId");
+        // console.log(rocketId);
+        const raketa = await fetchData(`https://api.spacexdata.com/v4/rockets/${rocketId}`);
+        const raketeInfo = document.getElementById("infoRaketa");
+        const sliderImg = document.getElementById("slider");
+
+        let imeRakete = document.createElement("h1");
+        imeRakete.textContent = raketa.name;
+        
+        let tipRakete = document.createElement("h3");
+        tipRakete.textContent =`Type: ${raketa.type}`;
+
+        let prviLet = document.createElement("h3");
+        prviLet.textContent = `First Flight: ${raketa.first_flight}`;
+
+        let cenaLeta = document.createElement("p");
+        cenaLeta.textContent = `Cost per launch: ${raketa.cost_per_launch.toLocaleString({minimumFractionDigits: 2 })}`;
+
+        let imeKompanije = document.createElement("p");
+        imeKompanije.textContent = `Company: ${raketa.company}`;
+
+        let uspehLeta = document.createElement("p");
+        uspehLeta.textContent = `Success Rate: ${raketa.success_rate_pct}`;
+
+        let statusRakete = document.createElement("p");
+        statusRakete.className = "status";
+        if(raketa.active) {
+            statusRakete.textContent ="Active";
+        } else {
+            statusRakete.textContent = "Inactive";
+        };
+
+        let zemljaRakete = document.createElement("p");
+        zemljaRakete.textContent = `Country: ${raketa.country}`;
+
+        let raketaStages = document.createElement("p");
+        raketaStages.textContent = `Stages: ${raketa.stages}`
+
+        let raketaVisina = document.createElement("p");
+        raketaVisina.textContent = `Height: ${raketa.height.meters} m`;
+
+        let diametarRakete = document.createElement("p");
+        diametarRakete.textContent = `Diameter: ${raketa.diameter.meters} m`;
+
+        let masaRakete = document.createElement("p");
+        masaRakete.textContent = `Mass: ${raketa.mass.kg.toLocaleString({minimumFractionDigits: 2 })} kg`;
+
+        let detaljiRakete = document.createElement("p");
+        detaljiRakete.textContent = `Details: ${raketa.description}`;
+
+        let buttonDiv = document.createElement("div");
+        buttonDiv.className = "buttonPojedinacna";
+
+        let btn = document.createElement("a");
+        btn.className = "btnWiki";
+        btn.textContent = "Wiki";
+        btn.href = raketa.wikipedia;
+        btn.target = "_blank";
+
+        let btn2 = document.createElement("a");
+        btn2.className = "btnBack";
+        btn2.textContent = "Back";
+        btn2.href = "rakete.html";
+
+        let imageDiv = document.createElement("div");
+        imageDiv.className = "imageDiv";
+
+        let slikeRakete = document.createElement("img");
+        slikeRakete.className = "slika";
+        slikeRakete.src = raketa.flickr_images[0];
+
+        raketa.flickr_images.forEach((pathUrl, index) => {
+            let slider = document.createElement("img");
+            slider.classList.add("sliderSlika");
+            slider.src = pathUrl;
+            if(index === 0) {
+                slider.classList.add("activ");
+            };
+
+            imageDiv.appendChild(slider);
+            slider.addEventListener("click", function(){
+                slikeRakete.src = pathUrl;
+                let slike = document.getElementsByClassName("sliderSlika");
+                for(let elem of slike) {
+                    elem.classList.remove("activ");
+                }
+                slider.classList.add("activ");
+            })
+        });
+        
+        raketeInfo.appendChild(imeRakete);
+        raketeInfo.appendChild(tipRakete);
+        raketeInfo.appendChild(prviLet);
+        raketeInfo.appendChild(cenaLeta);
+        raketeInfo.appendChild(imeKompanije);
+        raketeInfo.appendChild(uspehLeta);
+        raketeInfo.appendChild(statusRakete);
+        raketeInfo.appendChild(zemljaRakete);
+        raketeInfo.appendChild(raketaStages);
+        raketeInfo.appendChild(raketaVisina);
+        raketeInfo.appendChild(diametarRakete);
+        raketeInfo.appendChild(masaRakete);
+        raketeInfo.appendChild(detaljiRakete);
+        raketeInfo.appendChild(buttonDiv);
+        buttonDiv.appendChild(btn);
+        buttonDiv.appendChild(btn2);
+        sliderImg.appendChild(slikeRakete);
+        sliderImg.appendChild(imageDiv);
+    };
+
     const currentPage = window.location.pathname;
     if (currentPage.includes("lansiranja.html")) {
         prikaziLansiranja();
@@ -219,6 +326,8 @@ document.addEventListener("DOMContentLoaded", function (){
         prikaziRakete();
     } else if (currentPage.includes("onama.html")) {
         prikaziInformacije();
+    } else if (currentPage.includes("raketa.html")) {
+        pojedinacnaRaketa();
     }
 });
 

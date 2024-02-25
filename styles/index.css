@@ -73,7 +73,8 @@ body {
 }
 .lansiranje-strana, 
 .o-nama,
-.rakete-strana{
+.rakete-strana,
+.pojedinacna-raketa {
     background-color: rgb(32, 32, 32);
     min-height: 100vh;
 }
@@ -170,7 +171,9 @@ body {
     padding: 15px;
     margin-top: auto;
 }
-.button {
+.button,
+.btnWiki,
+.btnBack {
     display: inline-block;
     padding: 10px 20px;
     font-size: 16px;
@@ -182,9 +185,68 @@ body {
     cursor: pointer;
     transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 }
-.button:hover {
+.button:hover,
+.btnWiki:hover,
+.btnBack:hover {
     background-color: gray;
 }
 .divRaketa img {
     max-height: 300px;
 }
+.sadrzaj .description {
+    font-size: 30px;
+    padding: 150px;
+    margin: 0 100px 
+}
+.infoRaketa {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 0 70px;
+    max-width: 400px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.705);
+}
+.infoRaketa h1 {
+    color: white;
+    font-size: 60px;
+}
+.status {
+    color: red;
+}
+.pojedinacnaRaketa {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+.imageDiv {
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+    padding-top: 15px;
+}
+.btnWiki,
+.btnBack {
+    margin-right: 100px;
+    padding: 10px 20px;
+    margin-top: 20px;
+}
+.btnBack::before {
+    content: "\2190";
+    display: inline-block;
+    margin-right: 5px;
+}
+.imageDiv img {
+    margin-right: 20px;
+    cursor: pointer;
+}
+.slider .slika {
+    max-height: 400px;
+}
+.activ {
+    border: 5px solid white;
+}
+
