@@ -249,4 +249,85 @@ body {
 .activ {
     border: 5px solid white;
 }
-
+@media only screen and (max-width: 600px) {
+    .sadrzaj h1,
+    .sadrzajDva h1 {
+    font-size: 25px;
+    }
+    .sadrzaj p,
+    .sadrzajDva p{
+    font-size: 20px;
+    /* color: rgba(255, 255, 255, 0.705); */
+    padding-bottom: 60px;
+    }
+    .sadrzaj .description {
+        font-size: 20px;
+        padding: 0;
+        margin: 0;
+    }
+    .navbar{
+        width: 100%;
+        top: 0;
+        right: 0;
+        z-index: 2;
+    }
+    .navbar ul li {
+        display: block;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .listaRaketa {
+        display: block;
+    }   
+    .divRaketa {
+        display: block;
+        width: 100%;
+        margin: 0 auto;
+    }
+    .divRaketa img {
+        width: 100%;
+    }
+    .slider .slika {
+        max-height: 250px;
+        padding-top: 20px;
+    }
+    .pojedinacnaRaketa {
+        display: block;
+        margin-top: 10px;
+    }
+    .btnBack {
+        display: none;
+    }
+    .infoRaketa {
+        margin: 0 auto;
+    }
+    .lansiranjeDiv {
+        margin-bottom: 40px;
+        width: 100%;
+        max-width: 100%;
+        /* margin: 0 auto; */
+    }
+    .listaLansiranja {
+        display: block;
+        margin: 0 15px;
+    }
+    .o-nama .sadrzajDva {
+        display: none;
+    }
+    .about-section,
+    .headquarters-section,
+    .social-media-section {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+    .informacijeONama {
+        display: block;
+    }
+    .containerDiv {
+        display: table;
+        margin: 10px;
+        border-top: 2px solid rgba(255, 255, 255, 0.774);
+        padding-top: 10px;
+    }
+}
