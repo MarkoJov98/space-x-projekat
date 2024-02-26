@@ -330,4 +330,7 @@ body {
         border-top: 2px solid rgba(255, 255, 255, 0.774);
         padding-top: 10px;
     }
+    .imageDiv {
+        overflow-x: auto;
+    }
 }
